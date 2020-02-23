@@ -3,6 +3,7 @@ import multer from 'multer';
 
 import UserController from './app/controllers/UserController';
 import FileController from './app/controllers/FileController';
+import SessionController from './app/controllers/SessionController';
 
 import uploadConfig from './config/multer';
 
@@ -12,6 +13,8 @@ const upload = multer(uploadConfig);
 routes.get('/', (req, res) => {
   res.json({ msg: 'API ITS WORKING' });
 });
+
+routes.post('/sessions', SessionController.create);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:rg_cpf', UserController.show);
