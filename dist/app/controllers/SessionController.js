@@ -2,13 +2,15 @@
 
 class SessionController {
   async create(req, res) {
-    const { email } = req.body;
+    const { rg_cpf } = req.body;
 
-    const user = await _User2.default.findOne({ email });
+    const user = await _User2.default.findOne({ $or: [{ rg: rg_cpf }, { cpf: rg_cpf }] });
 
     if (!user) {
       return res.status(401).json({ error: "User doesn't exist!" });
     }
+
+    await user.populate('photo').execPopulate();
 
     return res.json(user);
   }

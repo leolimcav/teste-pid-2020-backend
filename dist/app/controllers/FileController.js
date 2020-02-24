@@ -4,8 +4,9 @@ class FileController {
   async create(req, res) {
     const { originalname: name, filename: path } = req.file;
     const file = await _File2.default.create({ name, path });
+    const { url } = file;
 
-    return res.json(file);
+    return res.json({ file, url });
   }
 }
 

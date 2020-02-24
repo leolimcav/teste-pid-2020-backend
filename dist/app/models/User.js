@@ -36,4 +36,4 @@ const UserSchema = new _mongoose2.default.Schema(
   { timestamps: true }
 );
 
-exports. default = _mongoose2.default.model('Users', UserSchema);
+exports. default = _mongoose2.default.model('User', UserSchema);
