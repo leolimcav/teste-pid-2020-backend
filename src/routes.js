@@ -20,7 +20,7 @@ routes.get('/users', UserController.index);
 routes.get('/users/:rg_cpf', UserController.show);
 routes.post('/users', UserController.create);
 routes.put('/users/:id', UserController.update);
-routes.delete('/users/:id', UserController.delete);
+routes.delete('/users/:rg_cpf', UserController.delete);
 
 routes.post('/files', upload.single('profile'), FileController.create);
 

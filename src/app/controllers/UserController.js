@@ -1,16 +1,26 @@
 import * as Yup from 'yup';
 
 import User from '../models/User';
+import UserFile from '../models/UserFile';
 
 class UserController {
   async show(req, res) {
     const { rg_cpf } = req.params;
+
     const user = await User.findOne({
       $or: [{ rg: rg_cpf }, { cpf: rg_cpf }],
-    })
-      .populate('photo')
+    });
+
+    if (!user) {
+      return res.status(400).json({ msg: 'User does not exist!' });
+    }
+
+    const photos = await UserFile.find({ user_id: user._id })
+      .populate('user_id')
+      .populate('photo_id')
       .exec();
-    return res.json(user);
+
+    return res.json(photos);
   }
 
   async index(req, res) {
@@ -78,6 +88,11 @@ class UserController {
       photo,
     });
 
+    UserFile.create({
+      photo_id: photo,
+      user_id: user._id,
+    });
+
     await user.populate('photo').execPopulate();
 
     return res.json(user);
@@ -89,15 +104,28 @@ class UserController {
 
     const user = await User.findByIdAndUpdate(id, { photo });
 
+    UserFile.create({
+      photo_id: photo,
+      user_id: id,
+    });
+
     await user.populate('photo').execPopulate();
 
     return res.json(user);
   }
 
   async delete(req, res) {
-    const { id } = req.params;
+    const { rg_cpf } = req.params;
 
-    const user = await User.findByIdAndDelete(id);
+    const user = await User.findOneAndDelete({
+      $or: [{ rg: rg_cpf }, { cpf: rg_cpf }],
+    });
+
+    const photos = await UserFile.find({ user_id: user._id });
+
+    photos.forEach(async photo => {
+      await photo.remove();
+    });
 
     return res.json(user);
   }
