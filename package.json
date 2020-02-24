@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "build": "sucrase ./src -d ./dist --exclude-dirs ./node_modules ./src/database/migrations ./src/database/seeders --transforms imports",
-    "prestart": "yarn build",
     "start": "node dist/server.js"
   },
   "dependencies": {
