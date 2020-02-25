@@ -27,7 +27,7 @@ class UserController {
     const { name } = req.query;
 
     if (name) {
-      const user = await User.findOne({
+      const user = await User.find({
         name: { $regex: `${name}.*`, $options: '-i' },
       })
         .populate('photo')
