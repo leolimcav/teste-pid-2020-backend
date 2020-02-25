@@ -6,12 +6,17 @@ import FileController from './app/controllers/FileController';
 import SessionController from './app/controllers/SessionController';
 
 import uploadConfig from './config/multer';
+import googleauth from './config/google-auth';
 
 const routes = new Router();
 const upload = multer(uploadConfig);
 
 routes.get('/', (req, res) => {
   res.json({ msg: 'API ITS WORKING' });
+});
+
+routes.get('/googlesign', (req, res) => {
+  return res.json(googleauth);
 });
 
 routes.post('/signin', SessionController.create);
