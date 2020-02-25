@@ -14,7 +14,7 @@ routes.get('/', (req, res) => {
   res.json({ msg: 'API ITS WORKING' });
 });
 
-routes.post('/sessions', SessionController.create);
+routes.post('/signin', SessionController.create);
 
 routes.get('/users', UserController.index);
 routes.get('/users/:rg_cpf', UserController.show);
